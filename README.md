@@ -1,2 +1,2 @@
 # EstruturaDadosI
-Materia EStrutura de Dados I - UFFS 2016
+Materia Estrutura de Dados I - UFFS 2016
