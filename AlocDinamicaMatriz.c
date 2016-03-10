@@ -2,69 +2,48 @@
 #include <stdlib.h>
 #include <time.h>
 
-int* uniao(int *v1, int n1, int *v2, int n2);
-
 int main()
 {
-    int elem1, elem2, i, *vet2, *vet3;
+    int linhas, colunas, a, b;
 
     srand(time(NULL));
 
-    printf("Digite a quantidade de elementos do vetor 1: ");
-    scanf(" %d", &elem1);
+    printf("Digite o numero de linhas: ");
+    scanf(" %d", &linhas);
 
-    int vet1[elem1 + 1];
+    int **matriz;
+    matriz = malloc(linhas * sizeof(int));
 
-    printf("\nVetor 1:");
-    for (i = 0; i < elem1; i++){
-        vet1[i] = rand() % 100;
-        printf(" %d", vet1[i]);
-    }
-
-
-    printf("\n\nDigite a quantidade de elementos do vetor 2: ");
-    scanf(" %d", &elem2);
-
-    if ((vet2 = malloc((1 + elem2) * sizeof(int))) == NULL){
-        printf("\nMemoria insuficiente\n");
+    if (matriz == NULL){
+        printf("\nMemoria Insuficiente.\n");
         return 0;
     }
 
-    printf("\nVetor 2:");
-    for (i = 0; i < elem2; i++){
-        vet2[i] = rand() % 100;
-        printf(" %d", vet2[i]);
+    for (a = 0; a < linhas; a++){
+        printf("\nLinha %d Quantidade de colunas: ", a);
+        scanf(" %d", &colunas);
+        //Alocar as colunas na linha indidcada por a, e um espaço que vai dizer o final da coluna (9999)
+        matriz[a] = malloc((colunas + 1)* sizeof(int));
+        if (matriz == NULL){
+            printf("\nMemoria Insuficiente.\n");
+            return 0;
+        }
+        //Popular a coluna
+        for (b = 0; b < colunas; b++){
+            matriz[a][b] = rand() % 100;
+        }
+        matriz[a][colunas] = 9999;
     }
-
-    vet3 = uniao(vet1, elem1, vet2, elem2);
-
-    printf("\n\nVetor 3: ");
-    for (i = 0; i< elem1+elem2; i++){
-        printf(" %d", vet3[i]);
+    printf("\n\n");
+    //Imprimir saída
+    for (a = 0; a < linhas; a++){
+        printf("\nEnd %x - ", &matriz[a]);
+        b = 0;
+        while (matriz[a][b] != 9999){
+            printf(" %d", matriz[a][b]);
+            b++;
+        }
     }
-
-    free(vet1);
-    free(vet2);
-    free(vet3);
-
+    free(matriz);
     return 0;
-}
-
-int* uniao(int *v1, int n1, int *v2, int n2){
-    int *vetor3, cont;
-
-    if((vetor3 = malloc((n1+n2+1) * sizeof(int))) == NULL){
-        printf("\nMemoria insuficiente\n");
-        return 0;
-    }
-
-    for (cont = 0; cont <= n1+n2; cont++){
-        if (cont < n1){
-            vetor3[cont] = v1[cont];
-        }
-        else if (cont < n1+n2){
-            vetor3[cont] = v2[cont-n1];
-        }
-    }
-    return vetor3;
 }
