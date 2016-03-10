@@ -5,13 +5,16 @@
 int main()
 {
     char num[32];
-    int pos = 0, a = 0, numero, chave = 0;
+    int pos = 0, a = 0, numero, chave = 0, tamanho;
     int *p;
 
-    if ((p = (int *) calloc(5, sizeof(int))) == NULL){
+    p = (int *) malloc(5 * sizeof(int));
+    if (p == NULL){
         printf("\nMemoria Insuficiente\n");
         return 0;
     }
+
+    tamanho = 5;
 
     do{
         printf("Digite um numero inteiro, ou uma letra para sair: ");
@@ -31,12 +34,15 @@ int main()
 
 
 
-        if (pos > 5){
-            if ((p = (int *) realloc(p, pos + sizeof(int))) == NULL){
+        if (pos >= tamanho){
+            p = (int *) realloc(p, (tamanho + 5) * sizeof(int));
+            if (p == NULL){
 
                 printf("\nMemoria Insuficiente\n");
                 return 0;
             }
+            tamanho += 5;
+
         }
         if (chave != 1){
             numero = atoi(num);
@@ -50,7 +56,6 @@ int main()
     }
     printf("\nQuantidade de numeros inteiros: %d\n", pos);
 
-    //p = (int *) realloc(p, 0);
     free(p);
 
     return 0;
